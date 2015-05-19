@@ -4,7 +4,7 @@
 #include <algorithm>
 
 // min heap
-template < typename Value, typename Payload,
+template < typename Payload, typename Value,
          typename Cmp = std::less<Value> >
 class BinaryHeap {
 public:
