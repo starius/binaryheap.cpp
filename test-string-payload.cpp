@@ -25,6 +25,7 @@ int main() {
     assert(!heap.empty());
     assert(heap.size() == 15);
     assert(heap.valueByPayload("pos07") == 59);
+    assert(heap.hasPayload("pos07"));
     std::string payload;
     int value;
     heap.top(payload, value); heap.pop();

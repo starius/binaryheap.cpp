@@ -42,6 +42,10 @@ public:
         return values_[reverse_.at(payload)];
     }
 
+    bool hasPayload(const Payload& payload) const {
+        return reverse_.find(payload) != reverse_.end();
+    }
+
     bool empty() const {
         return values_.empty();
     }
