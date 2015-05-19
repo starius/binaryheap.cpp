@@ -13,7 +13,8 @@ public:
     }
 
     void insert(const Payload& payload, const Value& value) {
-        int index = values_.size();
+        assert(reverse_.find(payload) == reverse_.end());
+        int index = size();
         values_.push_back(value);
         payloads_.push_back(payload);
         reverse_[payload] = index;
@@ -37,12 +38,33 @@ public:
         return values_.empty();
     }
 
+    int size() const {
+        return values_.size();
+    }
+
     void pop() {
         removePos(0);
     }
 
     void remove(const Payload& payload) {
-        removePos(reverse_[payload]);
+        int index = reverse_[payload];
+        removePos(index);
+    }
+
+    void check() const {
+        assert(payloads_.size() == values_.size());
+        assert(payloads_.size() == reverse_.size());
+        // binary heap order of elements
+        for (int index = 1; index < size(); index++) {
+            int parent = parentOf(index);
+            assert(!less(index, parent));
+        }
+        // consistence of reverse_ and payloads_
+        for (int index = 0; index < size(); index++) {
+            const Payload& payload = payloads_[index];
+            assert(reverse_.at(payload) == index);
+        }
+
     }
 
 private:
@@ -51,6 +73,10 @@ private:
     std::vector<Payload> payloads_;
     typedef std::map<Payload, int> Reverse;
     Reverse reverse_;
+
+    bool less(int i1, int i2) const {
+        return less_(values_[i1], values_[i2]);
+    }
 
     static int parentOf(int index) {
         return (index - 1) / 2;
@@ -67,7 +93,7 @@ private:
     void bubbleUp(int index) {
         while (index > 0) {
             int parent = parentOf(index);
-            if (less_(values_[index], values_[parent])) {
+            if (less(index, parent)) {
                 swap(index, parent);
                 index = parent;
             } else {
@@ -81,12 +107,10 @@ private:
             int min_index = index;
             int left = leftChildOf(index);
             int right = rightChildOf(index);
-            if (left < values_.size() &&
-                    less_(left, min_index)) {
+            if (left < size() && less(left, min_index)) {
                 min_index = left;
             }
-            if (right < values_.size() &&
-                    less_(right, min_index)) {
+            if (right < size() && less(right, min_index)) {
                 min_index = right;
             }
             if (min_index == index) {
@@ -104,15 +128,20 @@ private:
     }
 
     void removePos(int index) {
-        assert(index >= 0 && index <= values_.size());
-        if (index < values_.size() - 1) {
-            swap(index, values_.size() - 1);
-            values_.resize(values_.size() - 1);
+        assert(index >= 0 && index < size());
+        Payload payload = payloads_[index];
+        int last = size() - 1;
+        if (index < last) {
+            swap(index, last);
+            values_.resize(last);
+            payloads_.resize(last);
             bubbleUp(index);
             sinkDown(index);
         } else {
-            values_.resize(values_.size() - 1);
+            values_.resize(last);
+            payloads_.resize(last);
         }
+        reverse_.erase(payload);
     }
 
     void swap(int i1, int i2) {

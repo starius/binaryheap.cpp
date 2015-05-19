@@ -8,9 +8,10 @@
 int main() {
     std::vector<int> numbers;
     BinaryHeap<int, int> heap;
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 100; i++) {
         int n = rand();
         heap.insert(n, n);
+        heap.check();
         numbers.push_back(n);
     }
     std::sort(numbers.begin(), numbers.end());
@@ -19,6 +20,7 @@ int main() {
         int payload, value;
         heap.top(payload, value);
         heap.pop();
+        heap.check();
         assert(payload == value);
         numbers2.push_back(value);
     }
