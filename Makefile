@@ -1,5 +1,5 @@
-test: test.exe
-	./test.exe
+test: test-sort.exe
+	./test-sort.exe
 
-test.exe: test.cpp binaryheap.hpp
+test-sort.exe: test-sort.cpp binaryheap.hpp
 	$(CXX) -g -o $@ $<
