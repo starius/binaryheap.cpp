@@ -29,4 +29,5 @@ int main() {
         numbers2.push_back(value);
     }
     assert(numbers == numbers2);
+    return 0;
 }
