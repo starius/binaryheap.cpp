@@ -1,3 +1,11 @@
+/* Binary heap implementation in C++11
+ * Copyright (C) 2015 Boris Nagaev
+ * See the LICENSE file for terms of use.
+ */
+
+#ifndef BINARYHEAP_HPP_
+#define BINARYHEAP_HPP_
+
 #include <assert.h>
 #include <map>
 #include <vector>
@@ -158,3 +166,5 @@ private:
         values_[i2] = v1;
     }
 };
+
+#endif
