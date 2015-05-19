@@ -1,18 +1,22 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <vector>
+#include <set>
 #include <algorithm>
 
 #include "binaryheap.hpp"
 
 int main() {
+    std::set<int> seen;
     std::vector<int> numbers;
     BinaryHeap<int, int> heap;
     for (int i = 0; i < 100; i++) {
         int n = rand();
-        heap.insert(n, n);
-        heap.check();
-        numbers.push_back(n);
+        if (seen.find(n) == seen.end()) {
+            heap.insert(n, n);
+            heap.check();
+            numbers.push_back(n);
+        }
     }
     std::sort(numbers.begin(), numbers.end());
     std::vector<int> numbers2;
