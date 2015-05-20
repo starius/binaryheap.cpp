@@ -76,7 +76,6 @@ public:
             const Payload& payload = payloads_[index];
             assert(reverse_.at(payload) == index);
         }
-
     }
 
 private:
